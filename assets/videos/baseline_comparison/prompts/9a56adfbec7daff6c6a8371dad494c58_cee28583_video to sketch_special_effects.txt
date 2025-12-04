@@ -1,0 +1,1 @@
+Turn the video into a canny edge map
