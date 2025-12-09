@@ -6,7 +6,7 @@
 </div>
 
 <a href="https://snap-research.github.io/EgoEdit/"><img src="https://img.shields.io/badge/%F0%9F%8F%A0%20Project%20Page-gray.svg"></a>
-<a href="https://arxiv.org/abs/xxx"><img src="https://img.shields.io/badge/%F0%9F%93%84%20arXiv-2509.20360-B31B1B.svg"></a>
+<a href="https://arxiv.org/abs/2512.06065"><img src="https://img.shields.io/badge/%F0%9F%93%84%20arXiv-2512.06065-B31B1B.svg"></a>
 
 [Runjia Li](https://runjiali-rl.github.io/)<sup>1,3</sup>,
 [Moayed Haji Ali](https://moayedha.com/)<sup>1,2</sup>,
