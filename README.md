@@ -53,4 +53,19 @@ We propose a framework for real-time egocentric video editing. Our system is com
 - **High Fidelity**: Surpasses state of the art models like Editverse in editing faithfulness (via VLM evaluation) and aligns better with human judgment.
 
 
+## :books: Citing
+
+If you find this repository useful, please consider giving a star :star: and citation.
+
+```
+@article{li2025egoedit,
+  title={EgoEdit: Dataset, Real-Time Streaming Model, and Benchmark for Egocentric Video Editing},
+  author={Li, Runjia and Haji-Ali, Moayed and Mirzaei, Ashkan and Wang, Chaoyang and Sahni, Arpit and Skorokhodov, Ivan and Siarohin, Aliaksandr and Jakab, Tomas and Han, Junlin and Tulyakov, Sergey and others},
+  journal={arXiv preprint arXiv:2512.06065},
+  year={2025}
+}
+```
+
+
+
 ---
