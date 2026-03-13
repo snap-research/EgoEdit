@@ -52,21 +52,48 @@ We propose a framework for real-time egocentric video editing. Our system is com
 
 ## EgoEditData & EgoEditBench
 
-### TL;DR
+### Option A: Download from Hugging Face (Recommended)
+
+The easiest way to get the data:
+
+```bash
+pip install -r data/requirements_download.txt
+
+# Download annotations only
+python data/download_from_huggingface.py --annotations-only
+
+# Download everything (annotations + videos)
+python data/download_from_huggingface.py
+```
+
+You can also specify a custom output directory:
+
+```bash
+python data/download_from_huggingface.py --output-dir /path/to/data
+```
+
+Videos are stored as zip archives on Hugging Face. The download script automatically extracts them and removes the zip files, leaving individual `.mp4` files in the `videos/` directory.
+
+### Option B: Download from S3
+
+<details>
+<summary>Click to expand S3 download instructions</summary>
+
+#### TL;DR
 
 ```bash
 cd data
 pip install -r requirements_download.txt
-bash download_egoedit.sh
+bash download_from_aws.sh
 ```
 
-### 1. Setup Environment
+#### 1. Setup Environment
 
 ```bash
 pip install -r data/requirements_download.txt
 ```
 
-### 2. Configure AWS Credentials
+#### 2. Configure AWS Credentials
 
 Ensure you have AWS credentials configured. Choose one method:
 
@@ -87,7 +114,7 @@ aws_secret_access_key = your_secret_key
 EOF
 ```
 
-### 3. Download Annotations
+#### 3. Download Annotations
 
 ```bash
 mkdir -p data/annotation
@@ -97,19 +124,19 @@ aws s3 cp s3://ego-edit-data/annotation/egoeditdata_data_table.csv   data/annota
 aws s3 cp s3://ego-edit-data/annotation/egoeditdata_edits_table.csv  data/annotation/egoeditdata_edits_table.csv
 ```
 
-### 4. Download Videos
+#### 4. Download Videos
 
 ```bash
 cd data
 
 # Download EgoEditData videos
-python download_ego_edit.py \
+python download_from_aws.py \
     annotation/egoeditdata_data_table.csv \
     videos \
     annotation/local_egoeditdata_data_table.csv
 
 # Download EgoEditBench videos
-python download_ego_edit.py \
+python download_from_aws.py \
     annotation/egoeditbench_data_table.csv \
     videos \
     annotation/local_egoeditbench_data_table.csv
@@ -134,7 +161,7 @@ python download_ego_edit.py \
 Use more workers for faster downloads:
 
 ```bash
-python download_ego_edit.py \
+python download_from_aws.py \
     annotation/egoeditdata_data_table.csv \
     videos \
     annotation/local_egoeditdata_data_table.csv \
@@ -147,6 +174,8 @@ python download_ego_edit.py \
 - **"No module named 'boto3'"**: Run `pip install -r data/requirements_download.txt`.
 - **Downloads Are Slow**: Increase `--workers` (try 8, 16, or 32), check network bandwidth, or verify S3 bucket region matches your location.
 - **Frequent Failures**: Reduce workers and increase backoff: `--workers 1 --max-retries 10 --initial-backoff 2.0 --max-backoff 120.0`.
+
+</details>
 
 ## Data Format
 

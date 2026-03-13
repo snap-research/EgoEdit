@@ -22,7 +22,10 @@ from typing import List, Optional, Tuple
 from urllib.parse import urlparse
 
 import boto3
+from tqdm import tqdm
 import pandas as pd
+from botocore import UNSIGNED
+from botocore.config import Config
 from botocore.exceptions import ClientError
 
 # Set up logging
@@ -86,7 +89,7 @@ def download_file_with_retry(data_id: str, source_url: str, local_path: str, max
         None if successful, DownloadError if failed after all retries
     """
     if s3_client is None:
-        s3_client = boto3.client("s3")
+        s3_client = boto3.client("s3", config=Config(signature_version=UNSIGNED), region_name="us-east-2")
 
     source_bucket, source_key = parse_s3_url(source_url)
 
@@ -147,7 +150,7 @@ def download_worker(task: Tuple[str, str, str, int, float, float, float, bool]) 
     """Worker function for parallel file downloads."""
     data_id, source_url, local_path, max_retries, initial_backoff, max_backoff, backoff_multiplier, backoff_jitter = task
     # Each worker gets its own S3 client
-    s3_client = boto3.client("s3")
+    s3_client = boto3.client("s3", config=Config(signature_version=UNSIGNED), region_name="us-east-2")
     error = download_file_with_retry(data_id, source_url, local_path, max_retries, initial_backoff, max_backoff, backoff_multiplier, backoff_jitter, s3_client)
     return data_id, error
 
@@ -205,7 +208,8 @@ def download_videos_parallel(df: pd.DataFrame, output_folder: str, workers: int,
         future_to_data_id = {executor.submit(download_worker, task): task[0] for task in tasks}
 
         # Process completed tasks
-        for i, future in enumerate(as_completed(future_to_data_id)):
+        pbar = tqdm(as_completed(future_to_data_id), total=total_files, desc="Downloading", unit="file")
+        for future in pbar:
             data_id, error = future.result()
 
             if error is None:
@@ -214,9 +218,7 @@ def download_videos_parallel(df: pd.DataFrame, output_folder: str, workers: int,
                 errors.append(error)
                 failed_data_ids.append(data_id)
 
-            # Log progress every 10 files or at the end
-            if (i + 1) % 10 == 0 or (i + 1) == total_files:
-                logger.info(f"Progress: {i + 1}/{total_files} files processed ({success_count} succeeded, {len(errors)} failed)")
+            pbar.set_postfix(ok=success_count, fail=len(errors))
 
     logger.info("\nDownload complete:")
     logger.info(f"  Total files: {total_files}")
