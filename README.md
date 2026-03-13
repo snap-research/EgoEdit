@@ -7,7 +7,7 @@
 
 <a href="https://snap-research.github.io/EgoEdit/"><img src="https://img.shields.io/badge/%F0%9F%8F%A0%20Project%20Page-gray.svg"></a>
 <a href="https://arxiv.org/abs/2512.06065"><img src="https://img.shields.io/badge/%F0%9F%93%84%20arXiv-2512.06065-B31B1B.svg"></a>
-<a href="https://huggingface.co/datasets/snap-research/EgoEdit"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dataset-yellow.svg"></a>
+<a href="https://huggingface.co/datasets/liguang0115/EgoEdit"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Dataset-yellow.svg"></a>
 
 [Runjia Li](https://runjiali-rl.github.io/)<sup>1,3</sup>,
 [Moayed Haji Ali](https://moayedha.com/)<sup>1,2</sup>,
